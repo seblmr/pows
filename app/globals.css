@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: #C9A84C;
+  --void: #080808;
+  --ivory: #E8E0D0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Grain overlay on all pages */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Gold line separator */
+.gold-line {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* Subtle gold glow on hover */
+.gold-hover {
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+.gold-hover:hover {
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.3);
+}
+
+/* Score bar animation */
+@keyframes scoreGrow {
+  from { width: 0%; }
+  to   { width: var(--score-width); }
+}
+
+.score-bar {
+  animation: scoreGrow 1s ease forwards;
+  animation-delay: var(--delay, 0s);
+}
