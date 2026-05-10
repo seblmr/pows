@@ -253,7 +253,7 @@ export async function GET(
                                 position: 'relative',
                                 display: 'flex',
                               },
-                              children: {
+                              children: [{
                                 type: 'div',
                                 props: {
                                   style: {
@@ -262,7 +262,7 @@ export async function GET(
                                     background: '#C9A84C',
                                   },
                                 },
-                              },
+                              }],
                             },
                           },
                         ],
