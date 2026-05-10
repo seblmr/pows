@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  serverExternalPackages: ['@resvg/resvg-js'],
+  experimental: {
+    serverComponentsExternalPackages: ['@resvg/resvg-js'],
+  },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals = [
+        ...(Array.isArray(config.externals) ? config.externals : []),
+        '@resvg/resvg-js',
+      ]
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig
