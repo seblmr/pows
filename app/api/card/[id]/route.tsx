@@ -1,6 +1,8 @@
 import { ImageResponse } from 'next/og'
 import { NextRequest } from 'next/server'
 import { getProfile, initDb } from '@/lib/db'
+import fs from 'fs'
+import path from 'path'
 
 export const runtime = 'nodejs'
 
@@ -12,12 +14,17 @@ export async function GET(
   const data = await getProfile(params.id)
   if (!data) return new Response('Not found', { status: 404 })
 
-  const { archetype, profile: p } = data
   const base = process.env.NEXT_PUBLIC_BASE_URL!
+  // Chargement direct depuis le filesystem — pas de fetch HTTP
+  const fontDisplay = fs.readFileSync(
+    path.join(process.cwd(), 'public/fonts/Cormorant-Light.ttf')
+  )
+  const fontMono = fs.readFileSync(
+    path.join(process.cwd(), 'public/fonts/JetBrainsMono-Regular.ttf')
+  )
 
-  const [fontDisplay, fontMono] = await Promise.all([
-    fetch(`${base}/fonts/Cormorant-Light.ttf`).then(r => r.arrayBuffer()),
-    fetch(`${base}/fonts/JetBrainsMono-Regular.ttf`).then(r => r.arrayBuffer()),
+  // ... reste du code inchangé
+
   ])
 
   const scores = [
