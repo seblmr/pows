@@ -17,7 +17,6 @@ if (!data) return new Response('Not found', { status: 404 })
   const p = data
   const archetype = p.archetype
   
-  const base = process.env.NEXT_PUBLIC_BASE_URL!
   // Chargement direct depuis le filesystem — pas de fetch HTTP
   const fontDisplay = fs.readFileSync(
     path.join(process.cwd(), 'public/fonts/Cormorant-Light.ttf')
