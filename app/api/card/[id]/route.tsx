@@ -13,19 +13,17 @@ export async function GET(
   await initDb()
   const data = await getProfile(params.id)
 if (!data) return new Response('Not found', { status: 404 })
+    const { archetype, profile: p } = data
 
-  const p = data
-  const archetype = p.archetype
-  
-  // Chargement direct depuis le filesystem — pas de fetch HTTP
-  const fontDisplay = fs.readFileSync(
-    path.join(process.cwd(), 'public/fonts/Cormorant-Light.ttf')
-  )
-  const fontMono = fs.readFileSync(
-    path.join(process.cwd(), 'public/fonts/JetBrainsMono-Regular.ttf')
-  )
+    const fontDisplay = fs.readFileSync(
+      path.join(process.cwd(), 'public/fonts/Cormorant-Light.ttf')
+    )
+    const fontMono = fs.readFileSync(
+      path.join(process.cwd(), 'public/fonts/JetBrainsMono-Regular.ttf')
+    )
 
-  // ... reste du code inchangé
+
+
   const scores = [
     { label: 'MORAL FLEXIBILITY', value: p.financial_score.moral_flexibility },
     { label: 'PANIC RESISTANCE',  value: p.financial_score.panic_resistance  },
@@ -193,5 +191,12 @@ if (!data) return new Response('Not found', { status: 404 })
         { name: 'JetBrains',  data: fontMono,    weight: 400, style: 'normal' },
       ],
     }
-  )
+ }    catch (err: any) {
+      // Retourne l'erreur lisible au lieu d'un Bad Gateway opaque
+      return new Response(
+      JSON.stringify({ error: err.message, stack: err.stack }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
 }
+
