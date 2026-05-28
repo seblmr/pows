@@ -12,8 +12,11 @@ export async function GET(
 ) {
   await initDb()
   const data = await getProfile(params.id)
-  if (!data) return new Response('Not found', { status: 404 })
+if (!data) return new Response('Not found', { status: 404 })
 
+  const p = data
+  const archetype = p.archetype
+  
   const base = process.env.NEXT_PUBLIC_BASE_URL!
   // Chargement direct depuis le filesystem — pas de fetch HTTP
   const fontDisplay = fs.readFileSync(
@@ -24,9 +27,6 @@ export async function GET(
   )
 
   // ... reste du code inchangé
-
-  ])
-
   const scores = [
     { label: 'MORAL FLEXIBILITY', value: p.financial_score.moral_flexibility },
     { label: 'PANIC RESISTANCE',  value: p.financial_score.panic_resistance  },
