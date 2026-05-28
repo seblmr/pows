@@ -7,16 +7,20 @@ const db = createClient({
   authToken: process.env.TURSO_AUTH_TOKEN,
 })
 
+// Init once at module load — not on every request
+let initialized = false
+
 export async function initDb() {
+  if (initialized) return
   await db.execute(`
     CREATE TABLE IF NOT EXISTS profiles (
-      id        TEXT PRIMARY KEY,
-      archetype TEXT NOT NULL,
-      profile   TEXT NOT NULL,
-      card_url  TEXT,
+      id         TEXT PRIMARY KEY,
+      archetype  TEXT NOT NULL,
+      profile    TEXT NOT NULL,
       created_at INTEGER DEFAULT (unixepoch())
     )
   `)
+  initialized = true
 }
 
 export async function saveProfile(
@@ -37,8 +41,8 @@ export async function getProfile(id: string) {
   })
   if (!result.rows[0]) return null
   return {
-    id: result.rows[0].id as string,
+    id:        result.rows[0].id as string,
     archetype: result.rows[0].archetype as Archetype,
-    profile: JSON.parse(result.rows[0].profile as string) as PersonaProfile,
+    profile:   JSON.parse(result.rows[0].profile as string) as PersonaProfile,
   }
 }
