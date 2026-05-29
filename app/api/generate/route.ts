@@ -23,6 +23,10 @@ export async function POST(req: NextRequest) {
     const id = nanoid(10)
     await initDb()
     await saveProfile(id, archetype, profile)
+    // Pré-chauffe la carte en arrière-plan — pas d'await pour ne pas ralentir la réponse
+    const base = process.env.NEXT_PUBLIC_BASE_URL!
+    fetch(`${base}/api/card/${id}`).catch(() => {})
+    // La carte est générée et mise en cache par Next.js avant que X ne crawle
 
     return NextResponse.json({ id, archetype, profile })
   } catch (err) {
