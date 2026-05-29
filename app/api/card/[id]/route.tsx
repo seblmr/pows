@@ -191,7 +191,7 @@ if (!data) return new Response('Not found', { status: 404 })
         { name: 'JetBrains',  data: fontMono,    weight: 400, style: 'normal' },
       ],
     }
- }    catch (err: any) {
+      catch (err: any) {
       // Retourne l'erreur lisible au lieu d'un Bad Gateway opaque
       return new Response(
       JSON.stringify({ error: err.message, stack: err.stack }),
