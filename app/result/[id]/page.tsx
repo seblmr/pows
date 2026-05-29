@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getProfile, initDb } from '@/lib/db'
 import { PersonaProfile } from '@/lib/claude'
 import { Archetype } from '@/lib/matrix'
+import ShareButtons from '@/components/ShareButtons'
 
 type Props = { params: { id: string } }
 

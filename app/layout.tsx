@@ -16,6 +16,7 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://princeofwallstreet.com'),
   title: 'Prince of Wall Street — Discover Your Financial Identity',
   description: 'What kind of financial predator are you? Find out in 60 seconds.',
   openGraph: {
