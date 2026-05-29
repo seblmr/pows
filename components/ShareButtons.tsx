@@ -10,30 +10,36 @@ type Props = {
 
 export default function ShareButtons({ cardUrl, alias, archetype, quote, pageUrl }: Props) {
 
-  async function shareAsImage() {
-    try {
-      // Fetch the PNG card
-      const res  = await fetch(cardUrl)
-      const blob = await res.blob()
-      const file = new File([blob], `${alias}.png`, { type: 'image/png' })
+ async function shareAsImage() {
+  try {
+    const res  = await fetch(cardUrl)
+    const blob = await res.blob()
+    const file = new File([blob], `${alias}.png`, { type: 'image/png' })
 
-      const shareText = `My Prince of Wall Street identity: ${alias}\n"${quote}"\n\nDiscover yours → ${pageUrl}`
+    const shareText = `My Prince of Wall Street identity: ${alias}\n"${quote}"\n\nDiscover yours → ${pageUrl}`
 
-      // Web Share API — works on Android & iOS
-      if (navigator.share && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({
-          text:  shareText,
-          files: [file],
-        })
-      } else {
-        // Fallback: open X with text + URL only
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
+      // Mobile — partage natif avec image
+      await navigator.share({ text: shareText, files: [file] })
+    } else {
+      // Desktop — télécharge l'image ET ouvre X en même temps
+      const a    = document.createElement('a')
+      const url  = URL.createObjectURL(blob)
+      a.href     = url
+      a.download = `${alias}-prince.png`
+      a.click()
+      URL.revokeObjectURL(url)
+
+      // Petit délai puis ouvre X pour que l'utilisateur puisse joindre l'image
+      setTimeout(() => {
         const encoded = encodeURIComponent(shareText)
         window.open(`https://twitter.com/intent/tweet?text=${encoded}`, '_blank')
-      }
-    } catch (err) {
-      console.error('Share failed:', err)
+      }, 800)
     }
+  } catch (err) {
+    console.error('Share failed:', err)
   }
+}
 
   async function downloadCard() {
     const res  = await fetch(cardUrl)
