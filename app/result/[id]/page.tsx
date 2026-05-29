@@ -14,6 +14,9 @@ export default async function ResultPage({ params }: Props) {
   const { archetype, profile } = data
   const p: PersonaProfile = profile
 
+  const base    = process.env.NEXT_PUBLIC_BASE_URL!
+  const cardUrl = `${base}/api/card/${params.id}`
+
   const scores = [
     { label: 'Moral Flexibility', value: p.financial_score.moral_flexibility },
     { label: 'Panic Resistance',  value: p.financial_score.panic_resistance  },
