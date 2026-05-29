@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.*
+*.db-journal
+.git/
+.gitignore
+README.md
+*.md
+DEPLOY.md
