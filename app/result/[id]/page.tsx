@@ -123,23 +123,14 @@ export default async function ResultPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Share */}
-      <div className="flex gap-4 mb-16">
-        <a
-          href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono text-xs text-gold border border-gold/30 px-6 py-3 hover:bg-gold hover:text-void transition-all duration-200 tracking-widest uppercase"
-        >
-          Share on X
-        </a>
-        <a
-          href="/"
-          className="font-mono text-xs text-smoke border border-white/10 px-6 py-3 hover:border-white/30 transition-all duration-200 tracking-widest uppercase"
-        >
-          Try again
-        </a>
-      </div>
+      {/* Share buttons */}
+       <ShareButtons
+       cardUrl={cardUrl}
+       alias={p.alias}
+       archetype={archetype}
+       quote={p.quote}
+       pageUrl={`${base}/result/${params.id}`}
+       />
 
       <p className="font-mono text-xs text-smoke/30 tracking-widest">
         PRINCEOFWALLSTREET.COM
